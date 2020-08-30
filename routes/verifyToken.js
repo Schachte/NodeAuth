@@ -9,13 +9,12 @@ module.exports = function(req, res, next) {
         req.user = verified;
         const { issued } = verified
 
+        // Token expires every 30 seconds
         if (issued + 30 < Math.round(new Date().getTime() / 1000)) {
             return res.status(400).send('Token Expired');
         }
-
         next()
     } catch (err) {
-        console.log(err)
         return res.status(400).send('Invalid Token');
     }
 }

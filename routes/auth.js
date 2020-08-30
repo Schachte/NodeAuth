@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken')
 
 const { registerValidation, loginValidation } = require('../validation')
 
+/**
+ * Registration of a user will place their credentials in an adjacent DB. The creds
+ * can be used against the login route to obtain the actual token
+ */
 router.post('/register', async (req, res) => {
     const { error } = registerValidation(req.body)
     if (error) return res.status(400).send(error.details[0].message);
@@ -31,6 +35,9 @@ router.post('/register', async (req, res) => {
     }
 })
 
+/**
+ * Logging in yields a header token that can be used in future network reqs
+ */
 router.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body)
     if (error) return res.status(400).send(error.details[0].message);
